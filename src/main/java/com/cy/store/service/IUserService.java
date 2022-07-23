@@ -17,4 +17,10 @@ public interface IUserService {
      * @return当前匹配的用户数据，如果没有则返回null值
      */
     User login(String username,String password);
+
+    //思考底层需要用到什么参数，此时在把这些参数写进去
+    void changePassword(Integer uid,
+                        String username,
+                        String oldPassword,
+                        String newPassword);
 }

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Date;
+
 @SpringBootTest//表示当前类是一个测试类，不会随同项目一起打包
 /**
  * @RunWith表示启动这个单元测试类，(单元测试类是不能运行的，项目创建时自带的不用写这个类，自己写的测试类需要写这个注解)
@@ -19,6 +21,8 @@ public class UserServiceTest {
     //爆红的原因：不是因为代码错误，而是因为idea有代码检测功能，接口是不能直接创建bean的（里面有用到动态代理技术）
     @Autowired
     private IUserService userService;
+
+
     /**
      * 单元测试方法的特点：就可以单独运行，不用启动整个项目，就可以做单元测试
      * 1.必须被@Test注解修饰
@@ -30,7 +34,7 @@ public class UserServiceTest {
     public void reg(){
         try {
             User user = new User();
-            user.setUsername("yuanxin02");
+            user.setUsername("test02");
             user.setPassword("123");
             userService.reg(user);
             System.out.println("ok");
@@ -51,7 +55,7 @@ public class UserServiceTest {
     @Test
     public void login02() {
         try {
-            String username = "tim";
+            String username = "test02";
             String password = "123";
             User user = userService.login(username, password);
             System.out.println("登录成功！" + user);
@@ -59,6 +63,11 @@ public class UserServiceTest {
             System.out.println("登录失败！" + e.getClass().getSimpleName());
             System.out.println(e.getMessage());
         }
+    }
+
+    @Test
+    public void changePassword(){
+        userService.changePassword(9,"管理员","123","321");
     }
 
 }

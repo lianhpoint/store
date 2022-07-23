@@ -3,10 +3,7 @@ package com.cy.store.service.impl;
 import com.cy.store.entity.User;
 import com.cy.store.mapper.UserMapper;
 import com.cy.store.service.IUserService;
-import com.cy.store.service.ex.InsertException;
-import com.cy.store.service.ex.PasswordNotMatchException;
-import com.cy.store.service.ex.UserNotFoundException;
-import com.cy.store.service.ex.UsernameDupcalitedException;
+import com.cy.store.service.ex.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -95,6 +92,28 @@ public class UserServiceImpl implements IUserService {
 
         //将当前用户的数据返回,返回的数据是为了辅助其它页面做数据展示用的（uid，username，头像等）
         return user;
+    }
+
+    @Override
+    public void changePassword(Integer uid, String username, String oldPassword, String newPassword) {
+        User result = userMapper.findByUid(uid);
+        if(result==null||result.getIsDelete()==1){
+            throw new UserNotFoundException("用户数据不存在");
+        }
+        //原始密码和数据库中密码进行比较
+        String oldMD5Password = getMD5Password(oldPassword, result.getSalt());
+        if(!result.getPassword().equals(oldMD5Password)){
+            throw new PasswordNotMatchException("密码错误");
+        }
+        //将新密码设置到数据库中，将新的密码进行加密再去更新
+        String newMD5Password = getMD5Password(newPassword, result.getSalt());
+        Integer rows =
+                userMapper.updatePasswordByUid(uid, newMD5Password, username, new Date());
+                //username，new Date()这两个参数不知道为什么要这么写，第十集关于这点要详细看一遍
+
+        if(rows!=1){
+            throw new UpdateException("更新数据产生未知的异常");
+        }
     }
 
     /*@Override

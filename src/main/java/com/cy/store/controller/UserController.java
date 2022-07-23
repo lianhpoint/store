@@ -55,6 +55,17 @@ public class UserController extends BaseController{
         return new JsonResult<User>(ok,data);//<>里面的值可以省略不写
     }
 
+    @RequestMapping("change_password")
+    public JsonResult<Void> changePassword(String oldPassword,
+                                           String newPassword,
+                                           HttpSession session){
+        Integer uid = getuidFromSession(session);
+        String username = getUsernameFromSession(session);
+        userService.changePassword(uid,username,
+                    oldPassword,newPassword);
+        return new JsonResult<>(ok);
+    }
+
     /*
     此类的简略方法在上面，把重复的catch的异常抽取出来变成一个类BaseController
      @RequestMapping("reg")

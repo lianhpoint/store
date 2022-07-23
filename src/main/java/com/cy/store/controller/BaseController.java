@@ -34,6 +34,10 @@ public class BaseController {
             result.setState(5002);
             result.setMessage("用户名密码错误的异常");
         }
+        else if (e instanceof UpdateException){
+            result.setState(5003);
+            result.setMessage("数据更新时产生未知的异常");
+        }
         else if (e instanceof InsertException){
             //设置这两个信息是为了方便返回给前端，便于做业务的判断
             result.setState(5000);
