@@ -66,6 +66,21 @@ public class UserController extends BaseController{
         return new JsonResult<>(ok);
     }
 
+    @RequestMapping("get_by_uid")
+    public JsonResult<User> getByUid(HttpSession session){
+        User data = userService.getByUid(getuidFromSession(session));
+        return new JsonResult<>(ok,data);
+    }
+
+    @RequestMapping("change_info")
+    public JsonResult<Void> changeInfo(User user,HttpSession session){
+        //user对象有四部分数据：username，phone，email，gender
+        //uid数据需要再次封装到user对象中
+        Integer uid = getuidFromSession(session);
+        String username = getUsernameFromSession(session);
+        userService.changeInfo(uid,username,user);
+        return new JsonResult<>(ok);
+    }
     /*
     此类的简略方法在上面，把重复的catch的异常抽取出来变成一个类BaseController
      @RequestMapping("reg")

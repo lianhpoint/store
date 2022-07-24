@@ -147,7 +147,7 @@
 							<div class="form-group">
 								<label class="col-md-2 control-label">电话号码：</label>
 								<div class="col-md-8">
-									<input `id="phone" name="phone" type="text" class="form-control" placeholder="请输入电话号码" value="13311311313">
+									<input id="phone" name="phone" type="text" class="form-control" placeholder="请输入电话号码" value="13311311313">
 								</div>
 							</div>
 							<div class="form-group">
@@ -262,6 +262,67 @@
 			</div>
 		</footer>
 		<!--页脚结束-->
+
+		<script type="text/javascript">
+			$("#btn-change-info").click(function (){
+				$.ajax({
+					url:"/users/change_info",
+					data:$("#form-change-info").serialize(),
+					type:"post",
+					dataType:"json",
+					success:function (json){
+						if(json.state==200){
+							alert("用户信息修改成功");
+							//跳转到系统主页index.html
+							//相对路径来确定跳转的页面
+							location.href="userdata.html";//不知道为什么加上这一句，密码修改就不显示了
+						}
+						else {
+							alert("用户信息修改失败");
+						}
+					},
+					error:function (xhr) {
+						alert("用户信息修改时产生未知的异常"+xhr.message);
+					}
+				});
+			});
+			/*
+			* 一旦检测到当前的页面被加载就会触发ready方法
+			$(document).ready(function () {
+				//编写业务代码
+			});
+			* */
+			$(document).ready(function () {
+				$.ajax({
+					url:"/users/get_by_uid",
+					data:$("#form-change-info").serialize(),
+					type:"GET",
+					dataType:"json",
+					success:function (json){
+						if(json.state==200){
+							//将查询到的数据重新设置到控件中
+							//因为是改变控件的值，所以是val
+							$("#username").val(json.data.username);
+							$("#phone").val(json.data.phone);
+							$("#email").val(json.data.email);
+							let radio=json.data.gender==0?
+									$("#gender-female"):$("#gender-male");
+							//prop()表示给某个元素添加属性及属性的值,因为是单选框，设置值的改变是checked属性，所以是用prop
+							radio.prop("checked","checked");
+						}
+						else {
+							alert("用户的数据不存在");
+						}
+					},
+					error:function (xhr) {
+						alert("查询用户信息时产生未知的异常"+xhr.message);
+					}
+				});
+			});
+
+		</script>
+
+
 	</body>
 
 </html>

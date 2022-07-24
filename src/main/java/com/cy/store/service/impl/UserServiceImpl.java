@@ -116,6 +116,44 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @Override
+    public User getByUid(Integer uid) {
+        User result = userMapper.findByUid(uid);
+        if(result==null||result.getIsDelete()==1){
+            throw new UserNotFoundException("用户数据不存在");
+        }
+        User user = new User();
+        user.setGender(result.getGender());
+        user.setEmail(result.getEmail());
+        user.setUsername(result.getUsername());
+        user.setPhone(result.getPhone());
+        return user;
+    }
+
+    /**
+     * user对象中的数据是phone，email，gender，需要手动在将uid，
+     * username封装在user对象中？？？12集，这块不理解
+     * @param uid
+     * @param username
+     * @param user
+     */
+    @Override
+    public void changeInfo(Integer uid, String username, User user) {
+        User result = userMapper.findByUid(uid);
+        if(result==null||result.getIsDelete()==1){
+            throw new UserNotFoundException("用户数据不存在");
+        }
+        user.setUid(uid);
+        //user.setUsername(username);
+        user.setModifiedUser(username);
+        user.setModifiedTime(new Date());
+
+        Integer rows = userMapper.updateInfoByUid(user);
+        if(rows!=1){
+            throw new UpdateException("更新数据时产生未知的异常");
+        }
+    }
+
     /*@Override
     public User login(String username, String password) {
         // 调用userMapper的findByUsername()方法，根据参数username查询用户数据

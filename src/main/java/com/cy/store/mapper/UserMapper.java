@@ -28,4 +28,10 @@ public interface UserMapper {
     //根据用户的id查询用户的数据
     User findByUid(Integer uid);
 
+    /**
+     * 更新用户的数据信息
+     * @param user  用户的数据
+     * @return
+     */
+    Integer updateInfoByUid(User user);
 }

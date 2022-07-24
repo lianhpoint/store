@@ -3,6 +3,8 @@ package com.cy.store.service;
 import com.cy.store.entity.User;
 import com.cy.store.mapper.UserMapper;
 import com.cy.store.service.ex.ServiceException;
+import com.cy.store.service.ex.UpdateException;
+import com.cy.store.service.ex.UserNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +70,20 @@ public class UserServiceTest {
     @Test
     public void changePassword(){
         userService.changePassword(9,"管理员","123","321");
+    }
+
+    @Test
+    public void getByUid() {
+        System.out.println(userService.getByUid(9));
+    }
+
+    @Test
+    public void changeInfo() {
+        User user = new User();
+        user.setPhone("888888888");
+        user.setEmail("88888888@qq.com");
+        user.setGender(0);
+        userService.changeInfo(9,"管理员",user);
     }
 
 }
