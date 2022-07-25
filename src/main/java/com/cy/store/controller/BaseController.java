@@ -1,5 +1,6 @@
 package com.cy.store.controller;
 
+import com.cy.store.controller.ex.*;
 import com.cy.store.service.ex.*;
 import com.cy.store.util.JsonResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,8 +19,10 @@ public class BaseController {
      * //请求处理方法：这个方法的返回值就是要传递给前端的数据
      *     //自动将异常对象传递给此方法的参数列表上
      *     //当前项目中产生了异常，被统一拦截到此方法中，这个方法此时充当的就是请求处理方法，，方法的返回值返回给前端
+     *
+     * @ExceptionHandler作用是描述当前的方法可以处理什么样的异常
      */
-    @ExceptionHandler(ServiceException.class)//用于统一处理抛出的异常(？？？？？？此括号的参数不理解）,这个类不是很懂
+    @ExceptionHandler({ServiceException.class,FileUploadException.class})//用于统一处理抛出的异常(？？？？？？此括号的参数不理解）,这个类不是很懂
     public JsonResult<Void> handleException(Throwable e){
         JsonResult<Void> result = new JsonResult<>(e);
         if(e instanceof UsernameDupcalitedException){
@@ -42,6 +45,17 @@ public class BaseController {
             //设置这两个信息是为了方便返回给前端，便于做业务的判断
             result.setState(5000);
             result.setMessage("注册时产生未知的异常");
+        }
+        else if (e instanceof FileEmptyException) {
+            result.setState(6000);
+        } else if (e instanceof FileSizeException) {
+            result.setState(6001);
+        } else if (e instanceof FileTypeException) {
+            result.setState(6002);
+        } else if (e instanceof FileStateException) {
+            result.setState(6003);
+        } else if (e instanceof FileUploadIOException) {
+            result.setState(6004);
         }
         return result;
     }

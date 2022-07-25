@@ -60,4 +60,10 @@ public class UserMapperTest {
         user.setEmail("9999999@qq.com");
         userMapper.updateInfoByUid(user);
     }
+
+    @Test
+    public void updateAvatarByUid(){
+        userMapper.updateAvatarByUid(11,"update/abc.png","管理员",new Date());
+    }
+
 }

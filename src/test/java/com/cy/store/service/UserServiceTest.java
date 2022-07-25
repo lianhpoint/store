@@ -86,4 +86,9 @@ public class UserServiceTest {
         userService.changeInfo(9,"管理员",user);
     }
 
+    @Test
+    public void changeAvatar(){
+        userService.changeAvatar(11,"update/test.jpg","小明");
+    }
+
 }

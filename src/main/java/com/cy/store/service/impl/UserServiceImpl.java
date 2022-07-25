@@ -154,6 +154,23 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @Override
+    public void changeAvatar(Integer uid, String avatar, String username) {
+        //先查询当前用户的数据是否存在
+        User result = userMapper.findByUid(uid);
+        if(result==null||result.getIsDelete()==1){
+            throw new UserNotFoundException("用户数据不存在");
+        }
+        //此参数是由前端传递过来的!!!!!
+        Integer rows = userMapper.updateAvatarByUid(uid, avatar, username, new Date());
+        if(rows!=1){
+            throw new UpdateException("更新用户头像时产生未知的异常");
+        }
+    }
+
+
+
+
     /*@Override
     public User login(String username, String password) {
         // 调用userMapper的findByUsername()方法，根据参数username查询用户数据
