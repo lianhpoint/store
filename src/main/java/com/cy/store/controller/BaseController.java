@@ -30,16 +30,16 @@ public class BaseController {
             result.setMessage("此用户名已经被占用了");
         }
         else if (e instanceof UserNotFoundException){
-            result.setState(5001);
+            result.setState(4001);
             result.setMessage("用户数据不存在产生的异常");
         }
         else if (e instanceof PasswordNotMatchException){
-            result.setState(5002);
+            result.setState(4002);
             result.setMessage("用户名密码错误的异常");
         }
-        else if (e instanceof UpdateException){
-            result.setState(5003);
-            result.setMessage("数据更新时产生未知的异常");
+        else if (e instanceof AddressCountLimitException){
+            result.setState(4003);
+            result.setMessage("用户的收货地址超出上限异常");
         }
         else if (e instanceof InsertException){
             //设置这两个信息是为了方便返回给前端，便于做业务的判断

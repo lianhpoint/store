@@ -12,6 +12,7 @@ import java.util.Objects;
 @ToString
 //Serializable这个不懂
 public class BaseEntity implements Serializable {
+    //修改者，修改时间，创建者，创建时间这四项数据是日志信息，作用是为了以后出bug的时候减小排错的压力
     private String createdUser ;
     private Date createdTime ;
     private String modifiedUser ;
