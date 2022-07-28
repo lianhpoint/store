@@ -1,6 +1,7 @@
 package com.cy.store.service.impl;
 
 import com.cy.store.entity.Address;
+import com.cy.store.entity.District;
 import com.cy.store.mapper.AddressMapper;
 import com.cy.store.service.IAddressService;
 import com.cy.store.service.IDistrictService;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 //新增收货地址的实现类
 @Service
@@ -64,4 +66,25 @@ public class AddressServiceImpl implements IAddressService {
         }
 
     }
+
+    @Override
+    public List<Address> getByUid(Integer uid) {
+        List<Address> list = addressMapper.findByUid(uid);
+        for (Address address : list) {
+            address.setUid(null);
+            address.setAid(null);
+            address.setPhone(null);
+            address.setIsDefault(null);
+            address.setProvinceCode(null);
+            address.setCityCode(null);
+            address.setAreaCode(null);
+            address.setCreatedUser(null);
+            address.setCreatedTime(null);
+            address.setModifiedUser(null);
+            address.setModifiedTime(null);
+        }
+        return list;
+    }
+
+
 }

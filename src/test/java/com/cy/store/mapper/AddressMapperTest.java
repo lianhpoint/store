@@ -1,6 +1,7 @@
 package com.cy.store.mapper;
 
 import com.cy.store.entity.Address;
+import com.cy.store.entity.District;
 import com.cy.store.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
+import java.util.List;
 
 @SpringBootTest//表示当前类是一个测试类，不会随同项目一起打包
 /**
@@ -34,5 +36,11 @@ public class AddressMapperTest {
     public void countByUid(){
         Integer result = addressMapper.countByUid(10);
         System.out.println(result);
+    }
+
+    @Test
+    public void findByUid(){
+        List<Address> list = addressMapper.findByUid(11);
+        System.out.println(list);
     }
 }
