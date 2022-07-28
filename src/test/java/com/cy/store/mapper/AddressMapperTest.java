@@ -43,4 +43,19 @@ public class AddressMapperTest {
         List<Address> list = addressMapper.findByUid(11);
         System.out.println(list);
     }
+
+    @Test
+    public void findByAid(){
+        System.err.println(addressMapper.findByAid(9));
+    }
+
+    @Test
+    public void updateNoneDefault(){
+        addressMapper.updateNoneDefault(9);
+    }
+
+    @Test
+    public void updateDefaultByAid(){
+        addressMapper.updateDefaultByAid(9,"张安",new Date());
+    }
 }

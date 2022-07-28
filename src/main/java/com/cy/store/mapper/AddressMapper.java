@@ -2,7 +2,10 @@ package com.cy.store.mapper;
 
 import com.cy.store.entity.Address;
 import com.cy.store.entity.District;
+import org.apache.ibatis.annotations.Param;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.List;
 
 //收货地址持久层的接口
@@ -29,4 +32,24 @@ public interface AddressMapper {
      * @return  收货地址数据
      */
     List<Address> findByUid(Integer uid);
+
+    /**
+     * 根据aid查询收货地址
+     * @param aid   收货地址aid
+     * @return  收货地址数据，没有则返回null值
+     */
+    Address findByAid(Integer aid);
+
+    /**
+     * 根据用户的uid值来修改用户的收货地址设置为默认值
+     * @param uid
+     * @return
+     */
+    Integer updateNoneDefault(Integer uid);
+
+    Integer updateDefaultByAid(
+            @Param("aid") Integer aid,
+            @Param("modifiedUser") String modifiedUser,
+            @Param("modifiedTime") Date modifiedTime
+    );
 }
