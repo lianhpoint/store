@@ -51,11 +51,21 @@ public class AddressMapperTest {
 
     @Test
     public void updateNoneDefault(){
-        addressMapper.updateNoneDefault(9);
+        System.out.println(addressMapper.updateNonDefault(11));
     }
 
     @Test
     public void updateDefaultByAid(){
         addressMapper.updateDefaultByAid(9,"张安",new Date());
+    }
+
+    @Test
+    public void deleteByAid(){
+        addressMapper.deleteByAid(5);
+    }
+
+    @Test
+    public void findLastModified(){
+        System.out.println(addressMapper.findLastModified(11));
     }
 }

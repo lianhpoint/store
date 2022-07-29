@@ -85,32 +85,64 @@ public class AddressServiceImpl implements IAddressService {
         return list;
     }
 
+
     @Override
     public void setDefault(Integer aid, Integer uid, String username) {
+
+        //1.检测是否有该条收货地址数据
         Address result = addressMapper.findByAid(aid);
-        if(result==null){
+        if (result == null) {
             throw new AddressNotFoundException("收货地址不存在");
         }
-        //检测当前获取到的收货地址数据的归属
-        if(!result.getUid().equals(uid)){
+
+        //2.检测当前获取到的收货地址数据的归属
+        if (!result.getUid().equals(uid)) {
             throw new AccessDeniedException("非法数据访问");
         }
-        //先将所有收货地址设置非默认
-        Integer rows = addressMapper.updateNoneDefault(uid);
-        System.err.println(rows);
-        if(rows<1){
-            throw new UpdateException("更新数据产生未知的异常");
+
+        //3.先将所有的收货地址设置为非默认
+        Integer rows = addressMapper.updateNonDefault(uid);
+        if (rows < 1) {
+            throw new UpdateException("更新数据时产生未知的异常");
         }
-        //将用户选中某条地址设置为默认地址
-        rows=addressMapper.updateDefaultByAid(aid,username,new Date());
-        if(rows<1){
-            throw new UpdateException("更新数据产生未知的异常");
+
+        //4.将用户选中的地址设置为默认收货地址
+        rows = addressMapper.updateDefaultByAid(aid, username, new Date());
+        if (rows != 1) {
+            throw new UpdateException("更新数据时产生未知的异常");
         }
     }
 
+    @Override
+    public void delete(Integer uid, Integer aid, String username) {
+        Address result = addressMapper.findByAid(aid);
+        if(result==null){
+            throw new AddressNotFoundException("收货地址数据不存在");
+        }
+        if (!result.getUid().equals(uid)) {
+            throw new AccessDeniedException("非法数据访问");
+        }
+        Integer rows = addressMapper.deleteByAid(aid);
+        if(rows!=1){
+            throw new DeleteException("删除数据产生未知的异常");
+        }
 
+        Integer count = addressMapper.countByUid(uid);
+        if(count==0){
+            //直接终止程序
+            return;
+        }
+        if(result.getIsDefault()==0){
+            return;
+        }
 
-
+        //将这条数据中的is_default字符的值设置为1
+        Address address = addressMapper.findLastModified(uid);
+        rows = addressMapper.updateDefaultByAid(address.getAid(), username, new Date());
+        if(rows!=1){
+            throw new UpdateException("更新数据是产生未知的异常");
+        }
+    }
 
 
 }

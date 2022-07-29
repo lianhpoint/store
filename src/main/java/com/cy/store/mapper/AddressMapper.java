@@ -33,23 +33,40 @@ public interface AddressMapper {
      */
     List<Address> findByUid(Integer uid);
 
+
+
     /**
-     * 根据aid查询收货地址
-     * @param aid   收货地址aid
-     * @return  收货地址数据，没有则返回null值
+     * 根据aid查询收货地址数据
+     * @param aid 收货地址aid
+     * @return 收货地址数据,如果没有找到则返回null值
      */
     Address findByAid(Integer aid);
 
     /**
-     * 根据用户的uid值来修改用户的收货地址设置为默认值
-     * @param uid
-     * @return
+     * 根据用户uid修改用户的收货地址统一设置为非默认
+     * @param uid 用户uid
+     * @return 受影响的行数
      */
-    Integer updateNoneDefault(Integer uid);
+    Integer updateNonDefault(Integer uid);
+
 
     Integer updateDefaultByAid(
             @Param("aid") Integer aid,
             @Param("modifiedUser") String modifiedUser,
-            @Param("modifiedTime") Date modifiedTime
-    );
+            @Param("modifiedTime") Date modifiedTime);
+
+    /**
+     *根据收货地址id删除收货地址数据
+     * @param aid   收货地址的id
+     * @return  受影响的行数
+     */
+    Integer deleteByAid(Integer aid);
+
+    /**
+     *根据用户id查询当前用户最后一次被修改的收货地址数据
+     * @param uid   用户id
+     * @return  收货地址数据
+     */
+    Address findLastModified(Integer uid);
+
 }

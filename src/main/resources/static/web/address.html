@@ -276,6 +276,7 @@
 
 		/*展示用户收货地址数据列表*/
 		function showAddressList(){
+			$("#address-list").empty();
 			$.ajax({
 				url:"/addresses/",//和/districts这个效果是一样的
 				type:"get",
@@ -291,13 +292,15 @@
 									'<td>#{address}</td>\n'+
 									'<td>#{phone}</td>\n'+
 									'<td><a class="btn btn-xs btn-info"><span className="fa fa-edit"></span> 修改</a></td>'+
-									'<td><a class="btn btn-xs add-del btn-info"><span className="fa fa-trash-o"></span> 删除</a></td>'+
-									'<td><a class="btn btn-xs add-def btn-default">设为默认</a></td>'+
+									'<td><a onclick="deleteByAid(#{aid})"  class="btn btn-xs add-del btn-info"><span className="fa fa-trash-o"></span> 删除</a></td>'+
+									'<td><a onclick="setDefault(#{aid})" class="btn btn-xs add-def btn-default">设为默认</a></td>'+
 						'</tr>';
 							tr=tr.replace(/#{tag}/g,list[i].tag);
 							tr=tr.replace(/#{name}/g,list[i].name);
 							tr=tr.replace(/#{phone}/g,list[i].phone);
 							tr=tr.replace(/#{address}/g,list[i].address);
+							tr=tr.replace(/#{aid}/g,list[i].aid);
+
 
 							$("#address-list").append(tr);
 						}
@@ -307,6 +310,50 @@
 					else {
 						alert("用户收货地址数据加载失败");
 					}
+				}
+			});
+		}
+
+
+		function deleteByAid(aid) {
+			$.ajax({
+				url:"/addresses/"+aid+"/delete",
+				//因为数据通过restful风格添加了，所以不需要传入data数据了 data:$("#form-change-password").serialize(),
+				type:"post",
+				dataType:"json",
+				success:function (json){
+					if(json.state==200){
+						//重新加载收货地址列表页面
+						showAddressList();
+					}
+					else {
+						alert("删除收货地址失败");
+					}
+				},
+				error:function (xhr) {
+					alert("删除收货地址时产生未知的异常"+xhr.message);
+				}
+			});
+		}
+
+
+		function setDefault(aid) {
+			$.ajax({
+				url:"/addresses/"+aid+"/set_default",
+				//因为数据通过restful风格添加了，所以不需要传入data数据了 data:$("#form-change-password").serialize(),
+				type:"post",
+				dataType:"json",
+				success:function (json){
+					if(json.state==200){
+						//重新加载收货地址列表页面
+						showAddressList();
+					}
+					else {
+						alert("设置默认收货地址失败");
+					}
+				},
+				error:function (xhr) {
+					alert("设置默认收货地址时产生未知的异常"+xhr.message);
 				}
 			});
 		}

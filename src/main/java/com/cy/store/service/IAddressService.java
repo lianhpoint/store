@@ -13,9 +13,19 @@ public interface IAddressService {
 
     /**
      * 修改某个用户的某条收货地址数据为默认收货地址
-     * @param aid   收货地址的id
-     * @param uid   用户的id
-     * @param username  表示执行的人
+     * @param aid 收货地址的id
+     * @param uid 用户id
+     * @param username 修改执行人
      */
     void setDefault(Integer aid,Integer uid,String username);
+
+
+    /**
+     * 删除用户选中的收货地址数据
+     * @param uid  收货地址id
+     * @param aid   用户id
+     * @param username  用户名
+     */
+    void delete(Integer uid, Integer aid,String username);
+
 }

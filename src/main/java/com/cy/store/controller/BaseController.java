@@ -41,10 +41,23 @@ public class BaseController {
             result.setState(4003);
             result.setMessage("用户的收货地址超出上限异常");
         }
+        else if (e instanceof AddressNotFoundException){
+            result.setState(4004);
+            result.setMessage("用户的收货地址不存在的异常");
+        }
+        else if (e instanceof AccessDeniedException){
+            result.setState(4005);
+            result.setMessage("收货地址数据非法访问异常");
+        }
         else if (e instanceof InsertException){
             //设置这两个信息是为了方便返回给前端，便于做业务的判断
             result.setState(5000);
             result.setMessage("注册时产生未知的异常");
+        }
+        else if (e instanceof DeleteException){
+            //设置这两个信息是为了方便返回给前端，便于做业务的判断
+            result.setState(5001);
+            result.setMessage("删除数据时产生未知的异常");
         }
         else if (e instanceof FileEmptyException) {
             result.setState(6000);
