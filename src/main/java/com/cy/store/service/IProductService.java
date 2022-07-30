@@ -10,4 +10,6 @@ public interface IProductService {
      * @return 热销商品前四名的集合
      */
     List<Product> findHotList();
+
+    Product findById(Integer id);
 }

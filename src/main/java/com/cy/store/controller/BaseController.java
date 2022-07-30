@@ -49,6 +49,10 @@ public class BaseController {
             result.setState(4005);
             result.setMessage("收货地址数据非法访问异常");
         }
+        else if (e instanceof ProductNotFindException){
+            result.setState(4006);
+            result.setMessage("商品数据不存在的异常");
+        }
         else if (e instanceof InsertException){
             //设置这两个信息是为了方便返回给前端，便于做业务的判断
             result.setState(5000);

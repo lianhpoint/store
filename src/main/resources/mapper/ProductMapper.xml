@@ -17,4 +17,9 @@
     <select id="findHotList" resultMap="ProductEntityMap">
         select * from t_product where status=1 order by priority desc limit 0,4
     </select>
+
+    <select id="findById" resultMap="ProductEntityMap">
+        select * from t_product where id=#{id}
+    </select>
+
 </mapper>
